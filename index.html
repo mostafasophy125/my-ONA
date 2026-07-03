@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفاجأة لِكِ 💞</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --background-color: #1a0010;
+            --card-bg: rgba(255, 20, 147, 0.1);
+            --border-color: rgba(255, 20, 147, 0.3);
+            --primary-pink: #ff1493;
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* خلفية تساقط القلوب */
+        #hbg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .hf {
+            position: absolute;
+            bottom: -40px;
+            opacity: 0;
+            animation: fup linear infinite;
+        }
+
+        @keyframes fup {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+            12% {
+                opacity: 0.45;
+            }
+            88% {
+                opacity: 0.25;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-108vh) rotate(25deg);
+            }
+        }
+
+        /* الحاوية الرئيسية والصفحات */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .page {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* الكروت والتصميم */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(255, 20, 147, 0.15);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ffb6c1;
+        }
+
+        .gift-box {
+            font-size: 5rem;
+            margin: 20px 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        /* الأزرار */
+        .btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+            transition: 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        /* تفاصيل البيانات والعدادات */
+        .info-row {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            margin: 12px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-title {
+            font-size: 0.9rem;
+            color: #ff69b4;
+        }
+
+        .info-val {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* تصميم كروت العدادات الديناميكية المشتركة */
+        .countdown-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+            direction: ltr;
+            width: 100%;
+        }
+
+        .countdown-box {
+            background: rgba(255, 20, 147, 0.15);
+            border: 1px solid rgba(255, 20, 147, 0.4);
+            border-radius: 12px;
+            padding: 10px 5px;
+            flex: 1 1 calc(33.33% - 8px);
+            min-width: 85px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .countdown-num {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: #ffb6c1;
+            text-transform: uppercase;
+            margin-top: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        /* شبكة الصور */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* الجواب الورقي */
+        .letter-content {
+            text-align: right;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            white-space: pre-line;
+            color: #ffe4e1;
+        }
+
+        .sparkle {
+            color: #ffd700;
+        }
+        
+        /* تصميم خاص بيوم عيد الميلاد */
+        .birthday-active {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.3), rgba(255, 215, 0, 0.2)) !important;
+            border-color: #ffd700 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- خلفية تساقط القلوب المستمرة -->
+    <div id="hbg"></div>
+
+    <div class="container">
+
+        <!-- الصفحة 1: الواجهة الافتتاحية -->
+        <div id="page1" class="page active">
+            <div class="card">
+                <h1>عندك مفاجأة<br>من قلبي 🌸</h1>
+                <p>دوسي على الزرار وشوفي إيه جوا 🎁</p>
+                <button class="btn" onclick="nextPage(2)">افتحي المفاجأة ✨</button>
+            </div>
+        </div>
+
+        <!-- الصفحة 2: الهدية الأولى (قصة حبنا عداد لايف) -->
+        <div id="page2" class="page">
+            <div class="card">
+                <span class="info-title">الهدية الأولى 🎀</span>
+                <h2 style="margin-bottom: 15px;">قصة حبنا ❤️</h2>
+                <div class="gift-box">🎁</div>
+                <button class="btn" onclick="showGift1Content(this)">افتحي الهدية 💖</button>
+                
+                <!-- محتوى الهدية الأولى المخفي ويظهر عند الضغط -->
+                <div id="gift1-content" style="display: none; margin-top: 20px;">
+                    
+                    <!-- العداد الجديد لقصة حبنا (بيعد لايف بالثانية) -->
+                    <div class="info-row" style="background: rgba(255, 255, 255, 0.02); border: none; padding: 5px;">
+                        <span class="info-title" style="font-size: 1.1rem; margin-bottom: 5px;">بقالينا مع بعض ⏳</span>
+                        
+                        <div class="countdown-container">
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="love-years">0</span>
+                                <span class="countdown-label">Years</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="love-months">0</span>
+                                <span class="countdown-label">Months</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="love-days">0</span>
+                                <span class="countdown-label">Days</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="love-hours">0</span>
+                                <span class="countdown-label">Hours</span>
+                            </div>
+                            <div class="countdown-box" style="flex: 1 1 100%;">
+                                <span class="countdown-num" id="love-mins" style="color: #ffd700;">0</span>
+                                <span class="countdown-label">Minutes & Seconds 💓</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-title">إنتِ بالنسبة لي</span>
+                        <span class="info-val"><span class="sparkle">⭐</span> كل حاجة في الدنيا طول منتي فيها <span class="sparkle">⭐</span></span>
+                    </div>
+                    
+                    <p style="margin-top: 20px; margin-bottom: 10px;">📸 صورنا مع بعض</p>
+                    <div class="gallery">
+                        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="صورة 1">
+                        <img src="2.jpeg" alt="صورة 4">
+                        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="صورة 2">
+                        <img src="1.jpeg" alt="صورة 3">
+                    </div>
+                    
+                    <button class="btn" style="margin-top: 25px;" onclick="nextPage(3)">الهدية الجاية ←</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصفحة 3: الهدية الثانية (ذكرياتنا وعيد ميلادك) -->
+        <div id="page3" class="page">
+            <div class="card" id="birthday-card">
+                <span class="info-title">الهدية الثانية 🎀</span>
+                <h2 style="margin-bottom: 15px;">ذكرياتنا مع بعض ✨</h2>
+                <div class="gift-box">🎁</div>
+                <button class="btn" onclick="showGift2Content(this)">افتحي الهدية 💖</button>
+
+                <!-- محتوى الهدية الثانية المخفي ويظهر عند الضغط -->
+                <div id="gift2-content" style="display: none; margin-top: 20px;">
+                    <div class="info-row">
+                        <span class="info-title">اتخانقنا</span>
+                        <span class="info-val">30 مرات 🤭 وحبينا بعض أكتر</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-title">فرحنا سوا</span>
+                        <span class="info-val">فرحنا سوا، وكل مرة أشوفك أفرح.<span class="sparkle">🌟</span> وكل مرة أحلى</span>
+                    </div>
+                    
+                    <!-- العداد الـ 5 خانات المترتب بالإنجليزي وشغال لايف -->
+                    <div class="info-row" style="background: rgba(255, 255, 255, 0.02); border: none; padding: 5px;">
+                        <span class="info-title" id="age-title" style="font-size: 1.1rem; margin-bottom: 5px;">عمرك المنور الدنيا 🎂</span>
+                        
+                        <div class="countdown-container">
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="box-years">0</span>
+                                <span class="countdown-label">Years</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="box-months">0</span>
+                                <span class="countdown-label">Months</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="box-days">0</span>
+                                <span class="countdown-label">Days</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="box-hours">0</span>
+                                <span class="countdown-label">Hours</span>
+                            </div>
+                            <div class="countdown-box" style="flex: 1 1 100%;">
+                                <span class="countdown-num" id="box-mins" style="color: #ffd700;">0</span>
+                                <span class="countdown-label">Minutes ⏳</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" style="margin-top: 25px;" onclick="nextPage(4)">الهدية الأخيرة ←</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصفحة 4: الهدية الأخيرة (الجواب الورقي) -->
+        <div id="page4" class="page">
+            <div class="card">
+                <span class="info-title">الهدية الأخيرة 💌</span>
+                <h2 style="margin-bottom: 15px;">جواب ليكي من قلبي 🌹</h2>
+                <div class="gift-box">🎁</div>
+                <button class="btn" onclick="showGift3Content(this)">افتحي الهدية 💖</button>
+
+                <!-- محتوى الجواب النهائي -->
+                <div id="gift3-content" style="display: none; margin-top: 20px;">
+                    <div class="letter-content">
+                        <strong>إلى أجمل واحدة دخلت حياتي 💞</strong>
+                        
+                        لما بشوفك بحس إن الوقت بيقف.. وإن الدنيا كلها بتضحك معايا 🌸
+                        
+                        مش عارف أقولك بالكلام قد إيه بحبك، بس اعرفي إن كل صباح بيصحى أول حاجة بفكر فيها إنتِ <span class="sparkle">☀️</span>
+                        
+                        إنتِ مش بس حبيبتي.. إنتِ اللحظات الحلوة والضحكة اللي بتدّفي قلبي 🌙
+                        
+                        ووعد مني إني هفضل جنبك وهخليكي دايماً تحسي إنك أسعد بنت في الدنيا 👑
+                    </div>
+                    
+                    <h2 style="margin-top: 30px; color: #ff1493; font-size: 1.8rem; animation: pulse 1s infinite;">
+                        بحبك 💕<br>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // دالة التنقل بين الصفحات
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page' + pageNumber).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showGift1Content(button) {
+            button.style.display = 'none';
+            document.getElementById('gift1-content').style.display = 'block';
+        }
+
+        function showGift2Content(button) {
+            button.style.display = 'none';
+            document.getElementById('gift2-content').style.display = 'block';
+        }
+
+        function showGift3Content(button) {
+            button.style.display = 'none';
+            document.getElementById('gift3-content').style.display = 'block';
+        }
+
+        // --- التواريخ الأساسية ---
+        const birthDate = new Date("2006-09-14T00:00:00");
+        // ملحوظة: لو حابب تعدل تاريخ ارتباطكم بالساعة والدقيقة بالظبط غير السطر اللي تحت ده
+        const loveStartDate = new Date("2024-03-26T00:00:00"); 
+
+        // دالة عامة لحساب الفروق بدقة بين تاريخين
+        function calculateDateTimeDiff(startDate, endDate) {
+            let years = endDate.getFullYear() - startDate.getFullYear();
+            let months = endDate.getMonth() - startDate.getMonth();
+            let days = endDate.getDate() - startDate.getDate();
+            let hours = endDate.getHours() - startDate.getHours();
+            let minutes = endDate.getMinutes() - startDate.getMinutes();
+            let seconds = endDate.getSeconds() - startDate.getSeconds();
+
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
+            if (days < 0) {
+                const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0);
+                days += prevMonth.getDate();
+                months--;
+            }
+            if (months < 0) { months += 12; years--; }
+
+            return { years, months, days, hours, minutes, seconds };
+        }
+
+        function updateAllCounters() {
+            const now = new Date();
+            
+            // 1. تحديث عداد الحب (الهدية الأولى)
+            const loveDiff = calculateDateTimeDiff(loveStartDate, now);
+            document.getElementById('love-years').innerText = loveDiff.years.toLocaleString('en-US');
+            document.getElementById('love-months').innerText = loveDiff.months.toLocaleString('en-US');
+            document.getElementById('love-days').innerText = loveDiff.days.toLocaleString('en-US');
+            document.getElementById('love-hours').innerText = loveDiff.hours.toLocaleString('en-US');
+            // عرض الدقائق والثواني معًا عشان الحركة تبان حية
+            document.getElementById('love-mins').innerText = `${loveDiff.minutes.toLocaleString('en-US')}m : ${loveDiff.seconds.toLocaleString('en-US')}s`;
+
+            // 2. تحديث عداد السن (الهدية الثانية)
+            const ageDiff = calculateDateTimeDiff(birthDate, now);
+            document.getElementById('box-years').innerText = ageDiff.years.toLocaleString('en-US');
+            document.getElementById('box-months').innerText = ageDiff.months.toLocaleString('en-US');
+            document.getElementById('box-days').innerText = ageDiff.days.toLocaleString('en-US');
+            document.getElementById('box-hours').innerText = ageDiff.hours.toLocaleString('en-US');
+            document.getElementById('box-mins').innerText = ageDiff.minutes.toLocaleString('en-US');
+
+            // فحص يوم عيد الميلاد
+            const titleElement = document.getElementById('age-title');
+            const cardElement = document.getElementById('birthday-card');
+            if (now.getMonth() === 8 && now.getDate() === 14) { 
+                titleElement.innerHTML = "🎉 كـل سـنـة وإنـتِ طـيـبـة يا روحي! 🎂";
+                cardElement.classList.add('birthday-active');
+            } else {
+                titleElement.innerHTML = "عمرك المنور الدنيا 🎂";
+                cardElement.classList.remove('birthday-active');
+            }
+        }
+
+        // التحديث الآن شغال فوري كل ثانية (1000 مللي ثانية) عشان تتابعوا الثواني والدقائق وهي بتعد لوحدها لايف!
+        setInterval(updateAllCounters, 1000);
+        updateAllCounters(); 
+
+
+        // كود توليد تأثير تساقط القلوب في الخلفية
+        const hbg = document.getElementById('hbg');
+        const heartStyles = ['❤️', '💖', '💗', '💓', '💕'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('hf');
+            heart.innerText = heartStyles[Math.floor(Math.random() * heartStyles.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            
+            const duration = Math.random() * 3 + 3;
+            heart.style.animationDuration = duration + 's';
+            
+            hbg.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
